@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EmployeeManagement.Domain.Entities
+﻿namespace EmployeeManagement.Domain.Entities
 {
-    internal abstract class BaseEntity
+    public abstract class BaseEntity
     {
         public Guid Id { get; private set; }
     }

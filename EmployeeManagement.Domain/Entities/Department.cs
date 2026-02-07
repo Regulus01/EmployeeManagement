@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-
 namespace EmployeeManagement.Domain.Entities
 {
-    internal class Department : BaseEntity
+    public class Department : BaseEntity
     {
         public string Nome { get; private set; }
         public Guid? ManagerId { get; private set; }

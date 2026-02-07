@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace EmployeeManagement.Infrastructure.Context
 {
-    internal sealed class AppDbContext : DbContext
+    public sealed class AppDbContext : DbContext
     {
         public DbSet<Employee> Employees { get; set; } = null!;
         public DbSet<Department> Departments { get; set; } = null!;

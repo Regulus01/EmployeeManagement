@@ -4,12 +4,16 @@ using System.Text.RegularExpressions;
 
 namespace EmployeeManagement.Application.UseCases.Employee.Create
 {
-    internal sealed class CreateEmployeeValidator : AbstractValidator<CreateEmployeeRequest>
+    public class CreateEmployeeValidator : AbstractValidator<CreateEmployeeRequest>
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IDepartmentRepository _departmentRepository;
 
-        public CreateEmployeeValidator(IEmployeeRepository employeeRepository)
+        public CreateEmployeeValidator(IEmployeeRepository employeeRepository, IDepartmentRepository departmentRepository)
         {
+            _employeeRepository = employeeRepository;
+            _departmentRepository = departmentRepository;
+
             RuleFor(x => x.Nome)
                 .NotEmpty().WithMessage("Nome é obrigatório.")
                 .MinimumLength(2).WithMessage("Nome deve ter ao menos 2 caracteres.")
@@ -21,13 +25,21 @@ namespace EmployeeManagement.Application.UseCases.Employee.Create
                 .MustAsync(IsUniqueCpf).WithMessage("CPF já cadastrado.");
 
             RuleFor(x => x.DepartmentId)
-                .Must(id => id != Guid.Empty).WithMessage("DepartmentId é obrigatório.");
+                .Must(id => id != Guid.Empty).WithMessage("DepartmentId é obrigatório.")
+                .MustAsync(IsDepartmentValid).WithMessage("Departamento não cadastrado.");
+     
         }
 
         private async Task<bool> IsUniqueCpf(string cpf, CancellationToken cancellationToken)
         {
             var existing = await _employeeRepository.GetByCpfAsync(cpf);
             return existing is null;
+        }
+
+        private async Task<bool> IsDepartmentValid(Guid id, CancellationToken cancellationToken)
+        {
+            var existing = await _departmentRepository.GetByIdAsync(id);
+            return existing != null;
         }
 
         private static bool IsValidFormat(string cpf)

@@ -1,5 +1,7 @@
-﻿using EmployeeManagement.Application.UseCases.Employee.Create;
+﻿using EmployeeManagement.Application.Behaviors;
+using EmployeeManagement.Application.UseCases.Employee.Create;
 using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -9,13 +11,17 @@ namespace EmployeeManagement.Application.DependencyInjection
     internal static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Registra serviços e repositórios da camada Infrastructure.
+        /// Registra serviços da camada de Application.
         /// </summary>
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-            services.AddScoped<CreateEmployeeUseCase>();
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            });
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             return services;
         }

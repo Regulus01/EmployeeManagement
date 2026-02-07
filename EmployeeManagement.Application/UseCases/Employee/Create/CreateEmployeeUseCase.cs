@@ -1,8 +1,9 @@
 ﻿using EmployeeManagement.Domain.Repositories;
+using MediatR;
 
 namespace EmployeeManagement.Application.UseCases.Employee.Create
 {
-    internal class CreateEmployeeUseCase
+    public class CreateEmployeeUseCase : IRequestHandler<CreateEmployeeRequest, CreateEmployeeResponse>
     {
         private readonly IEmployeeRepository _employeeRepository;
 
@@ -11,7 +12,7 @@ namespace EmployeeManagement.Application.UseCases.Employee.Create
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
         }
 
-        public async Task<CreateEmployeeResponse> Execute(CreateEmployeeRequest request, CancellationToken cancellationToken = default)
+        public async Task<CreateEmployeeResponse> Handle(CreateEmployeeRequest request, CancellationToken cancellationToken = default)
         {
             var employee = new Domain.Entities.Employee(
                 request.Nome,
@@ -35,7 +36,6 @@ namespace EmployeeManagement.Application.UseCases.Employee.Create
                 DepartmentId = employee.DepartmentId
             };
         }
-
     }
 
 }

@@ -10,7 +10,7 @@ namespace EmployeeManagement.Domain.Repositories
     /// Segue o mesmo padrão da interface do Employee: anexar, persistir (SaveChangesAsync),
     /// operações de consulta, atualização e remoção.
     /// </summary>
-    internal interface IDepartmentRepository
+    public interface IDepartmentRepository
     {
         /// <summary>
         /// Anexa uma nova instância de <see cref="Department"/> ao contexto.

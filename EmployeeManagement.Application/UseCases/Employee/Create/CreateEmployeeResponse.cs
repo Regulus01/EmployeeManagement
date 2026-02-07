@@ -1,6 +1,6 @@
 ﻿namespace EmployeeManagement.Application.UseCases.Employee.Create
 {
-    internal sealed class CreateEmployeeResponse
+    public sealed class CreateEmployeeResponse
     {
         public Guid Id { get; init; }
         public string Nome { get; init; } = string.Empty;

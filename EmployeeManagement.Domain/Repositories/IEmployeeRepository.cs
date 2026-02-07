@@ -6,7 +6,7 @@ namespace EmployeeManagement.Domain.Repositories
     /// Interface do repositório de <see cref="Employee"/>.
     /// Define operações assíncronas de CRUD.
     /// </summary>
-    internal interface IEmployeeRepository
+    public interface IEmployeeRepository
     {
         /// <summary>
         /// Adiciona uma nova instância de <see cref="Employee"/> ao repositório (DbContext).
