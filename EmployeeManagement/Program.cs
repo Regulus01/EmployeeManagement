@@ -1,9 +1,6 @@
-using EmployeeManagement.Infrastructure.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddInfrastructure(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
