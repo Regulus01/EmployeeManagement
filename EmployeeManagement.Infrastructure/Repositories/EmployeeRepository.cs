@@ -2,6 +2,7 @@
 using EmployeeManagement.Domain.Repositories;
 using EmployeeManagement.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace EmployeeManagement.Infrastructure.Repositories
 {
@@ -24,9 +25,9 @@ namespace EmployeeManagement.Infrastructure.Repositories
             return employee;
         }
 
-        public async Task<Employee?> GetByIdAsync(Guid id)
+        public async Task<Employee?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _context.Employees.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+            return await _context.Employees.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
         public async Task<IEnumerable<Employee>> GetAllAsync()
@@ -34,26 +35,25 @@ namespace EmployeeManagement.Infrastructure.Repositories
             return await _context.Employees.AsNoTracking().ToListAsync();
         }
 
-        public async Task<Employee?> GetByCpfAsync(string cpf)
+        public async Task<Employee?> GetByCpfAsync(string cpf, CancellationToken cancellationToken = default)
         {
-            return await _context.Employees.AsNoTracking().FirstOrDefaultAsync(e => e.CPF == cpf);
+            return await _context.Employees.AsNoTracking().FirstOrDefaultAsync(e => e.CPF == cpf, cancellationToken);
         }
 
-        public async Task UpdateAsync(Employee employee)
+        public async Task UpdateAsync(Employee employee, CancellationToken cancellationToken = default)
         {
             _context.Employees.Update(employee);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var entity = await _context.Employees.FindAsync(id);
+            var entity = await _context.Employees.FindAsync(id, cancellationToken);
 
             if (entity is null) 
                 return;
 
             _context.Employees.Remove(entity);
-            await _context.SaveChangesAsync();
         }
     }
 }

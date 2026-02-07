@@ -12,22 +12,25 @@ namespace EmployeeManagement.Domain.Repositories
         /// Adiciona uma nova instância de <see cref="Employee"/> ao repositório (DbContext).
         /// </summary>
         /// <param name="employee">Instância de <see cref="Employee"/> a ser adicionada.</param>
+        /// <param name="cancellationToken">Token para cancelar a operação assíncrona.</param>
         /// <returns>Task que representa a operação assíncrona de anexação ao contexto.</returns>
-        Task AddAsync(Employee employee);
+        Task AddAsync(Employee employee, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Persiste as alterações pendentes no repositório e retorna a entidade informada.
         /// </summary>
         /// <param name="employee">Entidade cuja persistência está sendo confirmada.</param>
+        /// <param name="cancellationToken">Token para cancelar a operação assíncrona.</param>
         /// <returns>Task com a entidade persistida (pode conter valores gerados, ex.: Id).</returns>
-        Task<Employee> SaveChangesAsync(Employee employee);
+        Task<Employee> SaveChangesAsync(Employee employee, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Recupera um funcionário pelo identificador.
         /// </summary>
         /// <param name="id">Identificador (GUID) do funcionário.</param>
+        /// <param name="cancellationToken">Token para cancelar a operação assíncrona.</param>
         /// <returns>Task com a entidade encontrada ou <c>null</c> se não existir.</returns>
-        Task<Employee?> GetByIdAsync(Guid id);
+        Task<Employee?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Recupera todos os funcionários do repositório.
@@ -39,21 +42,24 @@ namespace EmployeeManagement.Domain.Repositories
         /// Recupera um funcionário pelo CPF.
         /// </summary>
         /// <param name="cpf">CPF do funcionário (formato esperado conforme validação da entidade).</param>
+        /// <param name="cancellationToken">Token para cancelar a operação assíncrona.</param>
         /// <returns>Task com a entidade encontrada ou <c>null</c> se não existir.</returns>
-        Task<Employee?> GetByCpfAsync(string cpf);
+        Task<Employee?> GetByCpfAsync(string cpf, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Atualiza um funcionário existente.
         /// </summary>
         /// <param name="employee">Entidade <see cref="Employee"/> com os dados atualizados.</param>
+        /// <param name="cancellationToken">Token para cancelar a operação assíncrona.</param>
         /// <returns>Task representando a operação assíncrona.</returns>
-        Task UpdateAsync(Employee employee);
+        Task UpdateAsync(Employee employee, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Remove um funcionário pelo identificador.
         /// </summary>
         /// <param name="id">Identificador (GUID) do funcionário a ser removido.</param>
+        /// <param name="cancellationToken">Token para cancelar a operação assíncrona.</param>
         /// <returns>Task representando a operação assíncrona.</returns>
-        Task DeleteAsync(Guid id);
+        Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }
