@@ -21,8 +21,8 @@ namespace EmployeeManagement.Domain.Repositories
         /// </summary>
         /// <param name="employee">Entidade cuja persistência está sendo confirmada.</param>
         /// <param name="cancellationToken">Token para cancelar a operação assíncrona.</param>
-        /// <returns>Task com a entidade persistida (pode conter valores gerados, ex.: Id).</returns>
-        Task<Employee> SaveChangesAsync(Employee employee, CancellationToken cancellationToken = default);
+        /// <returns>Booleano indicando se a operação foi bem sucedida.</returns>
+        Task<bool> SaveChangesAsync(Employee employee, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Recupera um funcionário pelo identificador.

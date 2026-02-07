@@ -2,7 +2,6 @@
 using EmployeeManagement.Domain.Repositories;
 using EmployeeManagement.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
 
 namespace EmployeeManagement.Infrastructure.Repositories
 {
@@ -14,15 +13,15 @@ namespace EmployeeManagement.Infrastructure.Repositories
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
-        public async Task AddAsync(Employee employee)
+        public async Task AddAsync(Employee employee, CancellationToken cancellationToken = default)
         {
-            await _context.Employees.AddAsync(employee);
+            await _context.Employees.AddAsync(employee, cancellationToken);
         }
 
-        public async Task<Employee> SaveChangesAsync(Employee employee)
+        public async Task<bool> SaveChangesAsync(Employee employee, CancellationToken cancellationToken = default)
         {
-            await _context.SaveChangesAsync();
-            return employee;
+            var saveChangesResult = await _context.SaveChangesAsync(cancellationToken);
+            return saveChangesResult >= 1;
         }
 
         public async Task<Employee?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
