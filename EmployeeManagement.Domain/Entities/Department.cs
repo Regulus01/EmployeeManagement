@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace EmployeeManagement.Domain.Entities
 {
     internal class Department : BaseEntity
@@ -9,5 +12,12 @@ namespace EmployeeManagement.Domain.Entities
         public Department? ParentDepartment { get; private set; }
         public virtual ICollection<Employee> Employees { get; private set; } = [];
         public virtual ICollection<Department> SubDepartments { get; private set; } = [];
+
+        public Department(string nome, Guid? managerId = null, Guid? parentDepartmentId = null)
+        {
+            Nome = nome;
+            ManagerId = managerId;
+            ParentDepartmentId = parentDepartmentId;
+        }
     }
 }

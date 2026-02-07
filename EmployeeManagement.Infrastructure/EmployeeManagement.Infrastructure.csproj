@@ -28,7 +28,7 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<InternalsVisibleTo Include="EmployeeManagement.Web" />
+		<InternalsVisibleTo Include="EmployeeManagement.Api" />
 	</ItemGroup>
 	
 	<ItemGroup>

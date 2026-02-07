@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using EmployeeManagement.Application.UseCases.Employee.Create;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -10,9 +11,12 @@ namespace EmployeeManagement.Application.DependencyInjection
         /// <summary>
         /// Registra serviços e repositórios da camada Infrastructure.
         /// </summary>
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+        public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+            services.AddScoped<CreateEmployeeUseCase>();
+
             return services;
         }
     }
