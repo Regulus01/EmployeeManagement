@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using EmployeeManagement.Application.Common;
+using MediatR;
 
 namespace EmployeeManagement.Application.UseCases.Employee.Create
 {
-    public class CreateEmployeeRequest : IRequest<CreateEmployeeResponse>
+    public class CreateEmployeeRequest : IRequest<Result<CreateEmployeeResponse>>
     {
         public string Nome { get; init; } = string.Empty;
         public string CPF { get; init; } = string.Empty;

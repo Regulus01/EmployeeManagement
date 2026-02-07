@@ -1,9 +1,10 @@
-﻿using EmployeeManagement.Domain.Repositories;
+﻿using EmployeeManagement.Application.Common;
+using EmployeeManagement.Domain.Repositories;
 using MediatR;
 
 namespace EmployeeManagement.Application.UseCases.Employee.Create
 {
-    public class CreateEmployeeUseCase : IRequestHandler<CreateEmployeeRequest, CreateEmployeeResponse>
+    public class CreateEmployeeUseCase : IRequestHandler<CreateEmployeeRequest, Result<CreateEmployeeResponse>>
     {
         private readonly IEmployeeRepository _employeeRepository;
 
@@ -12,7 +13,7 @@ namespace EmployeeManagement.Application.UseCases.Employee.Create
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
         }
 
-        public async Task<CreateEmployeeResponse> Handle(CreateEmployeeRequest request, CancellationToken cancellationToken = default)
+        public async Task<Result<CreateEmployeeResponse>> Handle(CreateEmployeeRequest request, CancellationToken cancellationToken = default)
         {
             var employee = new Domain.Entities.Employee(
                 request.Nome,
@@ -25,9 +26,9 @@ namespace EmployeeManagement.Application.UseCases.Employee.Create
             var saveChangesSuccess = await _employeeRepository.SaveChangesAsync(employee, cancellationToken);
 
             if (!saveChangesSuccess)
-                throw new Exception("Failed to save employee.");
-
-            return new CreateEmployeeResponse
+                return Result.Failure<CreateEmployeeResponse>(["Falha ao salvar o funcionário."]);
+    
+            var response = new CreateEmployeeResponse
             {
                 Id = employee.Id,
                 Nome = employee.Nome,
@@ -35,6 +36,8 @@ namespace EmployeeManagement.Application.UseCases.Employee.Create
                 RG = employee.RG,
                 DepartmentId = employee.DepartmentId
             };
+
+            return Result.Success(response);
         }
     }
 

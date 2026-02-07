@@ -9,6 +9,8 @@ namespace EmployeeManagement.Application.UseCases.Department.Create
 
         public CreateDepartmentValidator(IDepartmentRepository departmentRepository)
         {
+            _departmentRepository = departmentRepository;
+
             RuleFor(x => x.Nome)
                 .NotEmpty().WithMessage("Nome é obrigatório.")
                 .MinimumLength(2).WithMessage("Nome deve ter ao menos 2 caracteres.")

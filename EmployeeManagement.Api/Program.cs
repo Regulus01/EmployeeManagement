@@ -17,7 +17,7 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
-
+builder.Services.AddProblemDetails();
 
 builder.Services.AddControllers();
 
@@ -38,6 +38,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseExceptionHandler();
+app.UseStatusCodePages();
 app.MapControllers();
 
 app.Run();

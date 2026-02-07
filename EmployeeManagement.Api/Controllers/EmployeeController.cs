@@ -30,11 +30,29 @@ namespace EmployeeManagement.Api.Controllers
         /// <returns>Retorna os dados do funcionário criado.</returns>
         [HttpPost]
         [ProducesResponseType(typeof(CreateEmployeeResponse), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeRequest request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(request, cancellationToken);
-            return Created(string.Empty, response);
+
+            if (!response.IsSuccess)
+            {
+                var errors = new Dictionary<string, string[]>
+                {
+                    { "ValidationErrors", response.Errors }
+                };
+
+                var problemDetails = new ValidationProblemDetails(errors)
+                {
+                    Title = "Validation Failed",
+                    Detail = "One or more validation errors occurred.",
+                    Status = StatusCodes.Status422UnprocessableEntity
+                };
+
+                return UnprocessableEntity(problemDetails);
+            }
+
+            return Created(string.Empty, response.Value);
         }
     }
 }
