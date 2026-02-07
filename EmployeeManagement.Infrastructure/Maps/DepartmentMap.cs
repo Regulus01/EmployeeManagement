@@ -17,15 +17,26 @@ namespace EmployeeManagement.Infrastructure.Maps
                    .HasMaxLength(200);
 
             builder.HasOne(d => d.ParentDepartment)
-                   .WithMany()
-                   .HasForeignKey(d => d.ParentDepartmentId);
+                   .WithMany(d => d.SubDepartments)
+                   .HasForeignKey(d => d.ParentDepartmentId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<Employee>()
+            builder.HasOne(d => d.Manager)
                    .WithMany()
-                   .HasForeignKey(d => d.ManagerId);
+                   .HasForeignKey(d => d.ManagerId)
+                   .IsRequired(false)
+                   .OnDelete(DeleteBehavior.SetNull);
+
+            builder.HasMany(d => d.Employees)
+                   .WithOne()
+                   .HasForeignKey("DepartmentId")
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.Navigation(d => d.Employees)
-                   .UsePropertyAccessMode(PropertyAccessMode.Field);
+                   .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+            builder.Navigation(d => d.SubDepartments)
+                   .UsePropertyAccessMode(PropertyAccessMode.Property);
         }
     }
 }
