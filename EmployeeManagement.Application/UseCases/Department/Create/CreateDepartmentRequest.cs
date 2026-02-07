@@ -1,6 +1,9 @@
-﻿namespace EmployeeManagement.Application.UseCases.Department.Create
+﻿using EmployeeManagement.Application.Common;
+using MediatR;
+
+namespace EmployeeManagement.Application.UseCases.Department.Create
 {
-    internal sealed class CreateDepartmentRequest
+    public sealed class CreateDepartmentRequest : IRequest<Result<CreateDepartmentResponse>>
     {
         public string Nome { get; init; } = null!;
         public Guid? ManagerId { get; init; }

@@ -1,0 +1,60 @@
+﻿using EmployeeManagement.Application.UseCases.Department.Create;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+
+namespace EmployeeManagement.Api.Controllers
+{
+    /// <summary>
+    /// Controlador responsável pelas operações relacionadas a departamentos.
+    /// </summary>
+    [ApiController]
+    [Route("api/Department")]
+    public class DepartmentController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+
+        /// <summary>
+        /// Inicializa uma nova instância de <see cref="DepartmentController"/>.
+        /// </summary>
+        /// <param name="mediator">Instância do mediador para envio de comandos e consultas.</param>
+        public DepartmentController(IMediator mediator)
+        {
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        }
+
+        /// <summary>
+        /// Cria um novo departamento.
+        /// </summary>
+        /// <param name="request">Dados para criação do departamento.</param>
+        /// <param name="cancellationToken">Token para cancelamento da operação.</param>
+        /// <returns>Retorna os dados do departamento criado.</returns>
+        /// <response code="201">Departamento criado com sucesso.</response>
+        /// <response code="422">Erro de validação nos dados fornecidos.</response>
+        [HttpPost]
+        [ProducesResponseType(typeof(CreateDepartmentResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> CreateDepartment([FromBody] CreateDepartmentRequest request, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(request, cancellationToken);
+            
+            if (!response.IsSuccess)
+            {
+                var errors = new Dictionary<string, string[]>
+                {
+                    { string.Empty, response.Errors }
+                };
+
+                var problemDetails = new ValidationProblemDetails(errors)
+                {
+                    Title = "Validation Failed",
+                    Detail = "One or more validation errors occurred.",
+                    Status = StatusCodes.Status422UnprocessableEntity
+                };
+
+                return UnprocessableEntity(problemDetails);
+            }
+            
+            return Created(string.Empty, response.Value);
+        }
+    }
+}

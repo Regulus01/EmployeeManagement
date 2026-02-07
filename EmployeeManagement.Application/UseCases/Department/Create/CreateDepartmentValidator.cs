@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace EmployeeManagement.Application.UseCases.Department.Create
 {
-    internal sealed class CreateDepartmentValidator : AbstractValidator<CreateDepartmentRequest>
+    public class CreateDepartmentValidator : AbstractValidator<CreateDepartmentRequest>
     {
         private readonly IDepartmentRepository _departmentRepository;
 

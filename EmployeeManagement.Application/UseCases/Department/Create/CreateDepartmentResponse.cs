@@ -1,6 +1,6 @@
 ﻿namespace EmployeeManagement.Application.UseCases.Department.Create
 {
-    internal sealed class CreateDepartmentResponse
+    public sealed class CreateDepartmentResponse
     {
         public Guid Id { get; init; }
         public string Nome { get; init; } = null!;

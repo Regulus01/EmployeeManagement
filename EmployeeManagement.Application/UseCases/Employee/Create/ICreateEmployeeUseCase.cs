@@ -1,4 +1,4 @@
-﻿using EmployeeManagement.Application.Common;
+﻿ing EmployeeManagement.Application.Common;
 
 namespace EmployeeManagement.Application.UseCases.Employee.Create
 {

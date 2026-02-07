@@ -14,19 +14,18 @@ namespace EmployeeManagement.Domain.Repositories
     {
         /// <summary>
         /// Anexa uma nova instância de <see cref="Department"/> ao contexto.
-        /// A persistência no banco só ocorrerá após chamada a <see cref="SaveChangesAsync"/>.
         /// </summary>
-        Task AddAsync(Department department);
+        Task AddAsync(Department department, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Persiste as alterações pendentes no repositório e retorna a entidade persistida.
         /// </summary>
-        Task<Department> SaveChangesAsync(Department department);
+        Task<bool> SaveChangesAsync(Department department, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Recupera um departamento pelo identificador.
         /// </summary>
-        Task<Department?> GetByIdAsync(Guid id);
+        Task<Department?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Recupera todos os departamentos.
@@ -36,16 +35,16 @@ namespace EmployeeManagement.Domain.Repositories
         /// <summary>
         /// Recupera um departamento pelo nome.
         /// </summary>
-        Task<Department?> GetByNameAsync(string nome);
+        Task<Department?> GetByNameAsync(string nome, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Atualiza um departamento existente.
         /// </summary>
-        Task UpdateAsync(Department department);
+        Task UpdateAsync(Department department, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Remove um departamento pelo identificador.
         /// </summary>
-        Task DeleteAsync(Guid id);
+        Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

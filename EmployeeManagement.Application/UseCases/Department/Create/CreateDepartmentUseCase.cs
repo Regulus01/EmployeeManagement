@@ -1,32 +1,39 @@
-﻿using EmployeeManagement.Domain.Repositories;
+﻿using EmployeeManagement.Application.Common;
+using EmployeeManagement.Domain.Repositories;
+using MediatR;
 
 namespace EmployeeManagement.Application.UseCases.Department.Create
 {
-    internal sealed class CreateDepartmentUseCase
+    /// <summary>
+    /// Use case para criação de departamento.
+    /// </summary>
+    public class CreateDepartmentUseCase : IRequestHandler<CreateDepartmentRequest, Result<CreateDepartmentResponse>>
     {
         private readonly IDepartmentRepository _departmentRepository;
+
         public CreateDepartmentUseCase(IDepartmentRepository departmentRepository)
         {
             _departmentRepository = departmentRepository ?? throw new ArgumentNullException(nameof(departmentRepository));
         }
 
-        public async Task<CreateDepartmentResponse> Execute(CreateDepartmentRequest request, CancellationToken cancellationToken = default)
+        public async Task<Result<CreateDepartmentResponse>> Handle(CreateDepartmentRequest request, CancellationToken cancellationToken)
         {
-            var department = new Domain.Entities.Department(
-                request.Nome,
-                request.ManagerId,
-                request.ParentDepartmentId);
+            var department = new Domain.Entities.Department(request.Nome, request.ManagerId, request.ParentDepartmentId);
 
-            await _departmentRepository.AddAsync(department);
-            var persisted = await _departmentRepository.SaveChangesAsync(department);
+            await _departmentRepository.AddAsync(department, cancellationToken);
 
-            return new CreateDepartmentResponse
+            var saveChangesSuccess = await _departmentRepository.SaveChangesAsync(department, cancellationToken);
+
+            if (!saveChangesSuccess)
+                return Result.Failure<CreateDepartmentResponse>(new[] { "Falha ao salvar o departamento." });
+
+            var response = new CreateDepartmentResponse
             {
-                Id = persisted.Id,
-                Nome = persisted.Nome,
-                ManagerId = persisted.ManagerId,
-                ParentDepartmentId = persisted.ParentDepartmentId
+                Id = department.Id,
+                Nome = department.Nome
             };
+
+            return Result.Success(response);
         }
     }
 }
