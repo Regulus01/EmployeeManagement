@@ -23,13 +23,23 @@ namespace EmployeeManagement.Application.UseCases.Department.Create
 
             RuleFor(x => x.ParentDepartmentId)
                 .Must(id => id == null || id != Guid.Empty)
-                .WithMessage("ParentDepartmentId inválido.");
+                .WithMessage("ParentDepartmentId inválido.")
+                .MustAsync(IsDepartmentValid).WithMessage("Departamento não cadastrado.");
         }
 
         private async Task<bool> BeUniqueName(CreateDepartmentRequest request, string nome, CancellationToken cancellationToken)
         {
             var existing = await _departmentRepository.GetByNameAsync(nome);
             return existing is null;
+        }
+
+        private async Task<bool> IsDepartmentValid(Guid? id, CancellationToken cancellationToken)
+        {
+            if (id == null)
+                return false;
+
+            var existing = await _departmentRepository.GetByIdAsync(id.Value);
+            return existing != null;
         }
     }
 }
