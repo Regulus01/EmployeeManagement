@@ -17,7 +17,7 @@ namespace EmployeeManagement.Pages.Employees
         }
 
         [BindProperty(SupportsGet = true)]
-        [Display(Name = "Busca (Nome/CPF)")]
+        [Display(Name = "Busca (Nome)")]
         public string? Search { get; set; }
 
         [BindProperty(SupportsGet = true)]

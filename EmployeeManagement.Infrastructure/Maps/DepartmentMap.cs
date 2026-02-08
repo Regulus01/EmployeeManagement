@@ -18,14 +18,15 @@ namespace EmployeeManagement.Infrastructure.Maps
 
             builder.HasOne(d => d.ParentDepartment)
                    .WithMany(d => d.SubDepartments)
-                   .HasForeignKey(d => d.ParentDepartmentId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                   .HasForeignKey(d => d.ParentDepartmentId);
+
+            builder.Property(e => e.ManagerId)
+                   .IsRequired(false);
 
             builder.HasOne(d => d.Manager)
                    .WithMany()
                    .HasForeignKey(d => d.ManagerId)
-                   .IsRequired(false)
-                   .OnDelete(DeleteBehavior.SetNull);
+                   .IsRequired(false);
 
             builder.HasMany(d => d.Employees)
                    .WithOne(e => e.Department)

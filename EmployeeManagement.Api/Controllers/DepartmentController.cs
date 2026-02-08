@@ -66,7 +66,7 @@ namespace EmployeeManagement.Api.Controllers
         /// <param name="parentDepartmentName">Filtro por nome do departamento superior (contém).</param>
         /// <param name="cancellationToken">Token de cancelamento.</param>
         [HttpGet]
-        [ProducesResponseType(typeof(CreateDepartmentResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GetListDepartmentResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> Get(
             [FromQuery] string? nome,
