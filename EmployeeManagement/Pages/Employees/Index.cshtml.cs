@@ -16,14 +16,24 @@ namespace EmployeeManagement.Pages.Employees
             _logger = logger;
         }
 
+        // Filtros (alinhados ao GetListEmployeeRequest)
         [BindProperty(SupportsGet = true)]
-        [Display(Name = "Busca (Nome)")]
-        public string? Search { get; set; }
+        [Display(Name = "Nome")]
+        public string? Nome { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        [Display(Name = "CPF")]
+        public string? CPF { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        [Display(Name = "RG")]
+        public string? RG { get; set; }
 
         [BindProperty(SupportsGet = true)]
         [Display(Name = "Departamento")]
         public Guid? DepartmentId { get; set; }
 
+        // Paginação
         [BindProperty(SupportsGet = true)]
         public int PageNumber { get; set; } = 1;
 
@@ -53,20 +63,22 @@ namespace EmployeeManagement.Pages.Employees
             {
                 var query = new Dictionary<string, string?>
                 {
-                    ["search"] = string.IsNullOrWhiteSpace(Search) ? null : Search,
-                    ["departmentId"] = DepartmentId.HasValue ? DepartmentId.Value.ToString() : null,
-                    ["pageNumber"] = PageNumber.ToString(),
-                    ["pageSize"] = PageSize.ToString()
+                    ["Nome"] = string.IsNullOrWhiteSpace(Nome) ? null : Nome,
+                    ["CPF"] = string.IsNullOrWhiteSpace(CPF) ? null : CPF,
+                    ["RG"] = string.IsNullOrWhiteSpace(RG) ? null : RG,
+                    ["DepartmentId"] = DepartmentId.HasValue ? DepartmentId.Value.ToString() : null,
+                    ["PageNumber"] = PageNumber.ToString(),
+                    ["PageSize"] = PageSize.ToString()
                 };
 
-                var queryString = string.Join("&",
+                var queryString = string.Join("&",  
                     query
                         .Where(kv => !string.IsNullOrWhiteSpace(kv.Value))
                         .Select(kv => $"{Uri.EscapeDataString(kv.Key)}={Uri.EscapeDataString(kv.Value!)}"));
 
                 var url = string.IsNullOrEmpty(queryString)
-                    ? "api/employee"
-                    : $"api/employee?{queryString}";
+                    ? "api/Employee"
+                    : $"api/Employee?{queryString}";
 
                 var response = await _httpClient.GetFromJsonAsync<PagedEmployeesResponse>(
                     url,
@@ -149,9 +161,9 @@ namespace EmployeeManagement.Pages.Employees
         }
 
         public class DepartmentItem
-        {               
+        {
             public Guid Id { get; set; }
             public string Nome { get; set; } = string.Empty;
         }
     }
-}       
+}
