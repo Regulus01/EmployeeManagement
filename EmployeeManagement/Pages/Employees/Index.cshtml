@@ -1,0 +1,105 @@
+@page
+@model EmployeeManagement.Pages.Employees.IndexModel
+
+@{
+    ViewData["Title"] = "Colaboradores";
+}
+
+<h1>Colaboradores</h1>
+
+<form method="get" class="mb-3">
+    <div class="row g-2">
+        <div class="col-md-4">
+            <label asp-for="Search" class="form-label"></label>
+            <input asp-for="Search" class="form-control" />
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="DepartmentId" class="form-label"></label>
+            <select asp-for="DepartmentId" class="form-select" asp-items="Model.Departments"></select>
+        </div>
+
+        <div class="col-md-2">
+            <label asp-for="PageSize" class="form-label">Itens por página</label>
+            <select asp-for="PageSize" class="form-select">
+                <option value="5" selected="@(Model.PageSize == 5)">5</option>
+                <option value="10" selected="@(Model.PageSize == 10)">10</option>
+                <option value="20" selected="@(Model.PageSize == 20)">20</option>
+            </select>
+        </div>
+
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+        </div>
+    </div>
+</form>
+
+<div class="mb-2">
+    <a asp-page="/Employees/Create" class="btn btn-success">Novo Colaborador</a>
+</div>
+
+@if (!Model.Employees.Any())
+{
+    <div class="alert alert-info">Nenhum registro encontrado.</div>
+}
+else
+{
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>RG</th>
+                <th>Departamento</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var e in Model.Employees)
+        {
+            <tr>
+                <td>@e.Nome</td>
+                <td>@e.CPF</td>
+                <td>@e.RG</td>
+                <td>@e.DepartmentName</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <nav aria-label="Paginação">
+        <ul class="pagination">
+            @{
+                var prevDisabled = Model.PageNumber <= 1 ? "disabled" : "";
+                var nextDisabled = Model.PageNumber >= Model.TotalPages ? "disabled" : "";
+            }
+
+            <li class="page-item @prevDisabled">
+                <a class="page-link"
+                   asp-page="./Index"
+                   asp-route-Search="@Model.Search"
+                   asp-route-DepartmentId="@Model.DepartmentId"
+                   asp-route-PageNumber="@(Model.PageNumber - 1)"
+                   asp-route-PageSize="@Model.PageSize">
+                    Anterior
+                </a>
+            </li>
+
+            <li class="page-item disabled">
+                <span class="page-link">
+                    Página @Model.PageNumber de @Model.TotalPages
+                </span>
+            </li>
+
+            <li class="page-item @nextDisabled">
+                <a class="page-link"
+                   asp-page="./Index"
+                   asp-route-Search="@Model.Search"
+                   asp-route-DepartmentId="@Model.DepartmentId"
+                   asp-route-PageNumber="@(Model.PageNumber + 1)"
+                   asp-route-PageSize="@Model.PageSize">
+                    Próxima
+                </a>
+            </li>
+        </ul>
+    </nav>
+}

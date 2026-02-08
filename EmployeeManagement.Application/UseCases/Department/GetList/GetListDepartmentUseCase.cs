@@ -38,6 +38,7 @@ namespace EmployeeManagement.Application.UseCases.Department.GetList
             var getListDepartmentDto =
                 departments.Select(d => new GetListDepartmentDto
                 {
+                    Id = d.Id,
                     Nome = d.Nome,
                     ManagerName = d.Manager?.Nome,
                     ParentDepartmentName = d.ParentDepartment?.Nome

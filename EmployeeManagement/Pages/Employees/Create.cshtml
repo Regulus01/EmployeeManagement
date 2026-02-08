@@ -1,0 +1,45 @@
+@page
+@model EmployeeManagement.Pages.Employees.CreateModel
+@{
+    ViewData["Title"] = "Criar Colaborador";
+}
+
+<h1>Criar Colaborador</h1>
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Input.Nome"></label>
+        <input asp-for="Input.Nome" class="form-control" />
+        <span asp-validation-for="Input.Nome" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.CPF"></label>
+        <input asp-for="Input.CPF" class="form-control" />
+        <span asp-validation-for="Input.CPF" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.RG"></label>
+        <input asp-for="Input.RG" class="form-control" />
+        <span asp-validation-for="Input.RG" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.DepartmentId"></label>
+        <select asp-for="Input.DepartmentId" asp-items="Model.Departments" class="form-control">
+            <option value="">Selecione um departamento</option>
+        </select>
+        <span asp-validation-for="Input.DepartmentId" class="text-danger"></span>
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
