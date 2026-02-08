@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using EmployeeManagement.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace EmployeeManagement.Domain.Repositories
 {
@@ -21,6 +19,27 @@ namespace EmployeeManagement.Domain.Repositories
         /// Persiste as alterações pendentes no repositório e retorna a entidade persistida.
         /// </summary>
         Task<bool> SaveChangesAsync(Department department, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém departamentos com suporte a filtro e paginação opcionais.
+        /// </summary>
+        /// <param name="filter">
+        /// Expressão para filtrar os departamentos.
+        /// Quando não informada, retorna todos os registros.
+        /// </param>
+        /// <param name="skip">
+        /// Quantidade de registros a ignorar na consulta (paginação).
+        /// </param>
+        /// <param name="take">
+        /// Quantidade máxima de registros a retornar.
+        /// </param>
+        /// <returns>
+        /// Coleção de <see cref="Department"/> resultante da consulta.
+        /// </returns>
+        IEnumerable<Department> Get(
+            Expression<Func<Department, bool>>? filter = null,
+            int? skip = null,
+            int? take = null);
 
         /// <summary>
         /// Recupera um departamento pelo identificador.

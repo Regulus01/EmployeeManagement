@@ -2,6 +2,8 @@ using EmployeeManagement.Domain.Entities;
 using EmployeeManagement.Domain.Repositories;
 using EmployeeManagement.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace EmployeeManagement.Infrastructure.Repositories
 {
@@ -23,6 +25,27 @@ namespace EmployeeManagement.Infrastructure.Repositories
         {
             var result = await _context.SaveChangesAsync(cancellationToken);
             return result >= 1;
+        }
+
+        public IEnumerable<Department> Get(
+            Expression<Func<Department, bool>>? filter = null,
+            int? skip = null,
+            int? take = null)
+        {
+            var query = _context.Departments.AsNoTracking();
+
+            if (filter is not null)
+                query = query.Where(filter);
+
+            if (skip.HasValue)
+                query = query.Skip(skip.Value);
+
+            if (take.HasValue)
+                query = query.Take(take.Value);
+
+            return query.Include(x => x.Manager)
+                        .Include(x => x.ParentDepartment)
+                        .ToList();
         }
 
         public async Task<Department?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)

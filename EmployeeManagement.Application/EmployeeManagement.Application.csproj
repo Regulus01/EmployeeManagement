@@ -7,6 +7,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="UseCases\Department\NovaPasta\**" />
+	  <EmbeddedResource Remove="UseCases\Department\NovaPasta\**" />
+	  <None Remove="UseCases\Department\NovaPasta\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Compile Remove="UseCases\Employee\Create\ICreateEmployeeUseCase.cs" />
 	</ItemGroup>
 

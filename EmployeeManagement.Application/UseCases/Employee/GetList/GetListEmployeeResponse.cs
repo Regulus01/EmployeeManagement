@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EmployeeManagement.Application.UseCases.Employee.GetList
+﻿namespace EmployeeManagement.Application.UseCases.Employee.GetList
 {
     /// <summary>
     /// Response da listagem de colaboradores.

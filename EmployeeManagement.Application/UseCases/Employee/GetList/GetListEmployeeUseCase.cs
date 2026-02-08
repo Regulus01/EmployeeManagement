@@ -53,22 +53,19 @@ namespace EmployeeManagement.Application.UseCases.Employee.GetList
                 filter = filter.And(x => x.RG != null && x.RG.ToLower().Contains(request.RG.ToLower()));
 
             if (request.DepartmentId.HasValue)
-                filter = filter.And(x => x.DepartmentId == request.DepartmentId.Value);     
-    
+                filter = filter.And(x => x.DepartmentId == request.DepartmentId.Value);
+
             var employees = _employeeRepository.Get(filter);
 
-            var employeeDtos = new List<EmployeeDto>();
-    
-            foreach (var employee in employees)
-            {
-                employeeDtos.Add(new EmployeeDto
+            var employeeDtos = employees
+                .Select(employee => new EmployeeDto
                 {
                     Nome = employee.Nome,
                     CPF = employee.CPF,
                     RG = employee.RG,
-                    DepartmentName = employee.Department.Nome
-                });
-            }
+                    DepartmentName = employee.Department?.Nome
+                })
+                .ToList();
 
             var response = new GetListEmployeeResponse
             {
