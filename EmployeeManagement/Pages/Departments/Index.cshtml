@@ -9,10 +9,20 @@
 
 <form method="get" class="mb-3">
     <div class="row g-2">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <label asp-for="Nome" class="form-label"></label>
             <input asp-for="Nome" class="form-control" />
         </div>
+        <div class="col-md-4">
+            <label asp-for="ManagerName" class="form-label"></label>
+            <input asp-for="ManagerName" class="form-control" />
+        </div>
+        <div class="col-md-4">
+            <label asp-for="ParentDepartmentName" class="form-label"></label>
+            <input asp-for="ParentDepartmentName" class="form-control" />
+        </div>
+    </div>
+    <div class="row g-2 mt-2">
         <div class="col-md-2 d-flex align-items-end">
             <button type="submit" class="btn btn-primary w-100">Filtrar</button>
         </div>

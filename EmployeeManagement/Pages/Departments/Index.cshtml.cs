@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,6 +21,14 @@ namespace EmployeeManagement.Pages.Departments
         [Display(Name = "Nome do departamento")]
         public string? Nome { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        [Display(Name = "Nome do gerente")]
+        public string? ManagerName { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        [Display(Name = "Departamento superior")]
+        public string? ParentDepartmentName { get; set; }
+
         public List<GetListDepartmentDto> Departments { get; set; } = new();
         public int TotalCount { get; set; }
 
@@ -27,8 +37,10 @@ namespace EmployeeManagement.Pages.Departments
             try
             {
                 var queryParams = new Dictionary<string, string?>
-                {       
-                    ["nome"] = string.IsNullOrWhiteSpace(Nome) ? null : Nome
+                {
+                    ["nome"] = string.IsNullOrWhiteSpace(Nome) ? null : Nome,
+                    ["managerName"] = string.IsNullOrWhiteSpace(ManagerName) ? null : ManagerName,
+                    ["parentDepartmentName"] = string.IsNullOrWhiteSpace(ParentDepartmentName) ? null : ParentDepartmentName
                 };
 
                 var queryString = string.Join("&",
@@ -41,7 +53,7 @@ namespace EmployeeManagement.Pages.Departments
                     : $"api/Department?{queryString}";
 
                 var response = await _httpClient.GetFromJsonAsync<GetListDepartmentResponse>(
-                    url,    
+                    url,
                     cancellationToken
                 );
 
