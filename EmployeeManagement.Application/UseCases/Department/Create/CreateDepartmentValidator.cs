@@ -36,7 +36,7 @@ namespace EmployeeManagement.Application.UseCases.Department.Create
         private async Task<bool> IsDepartmentValid(Guid? id, CancellationToken cancellationToken)
         {
             if (id == null)
-                return false;
+                return true;
 
             var existing = await _departmentRepository.GetByIdAsync(id.Value);
             return existing != null;

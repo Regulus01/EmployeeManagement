@@ -19,6 +19,10 @@
     </div>
 </form>
 
+<div class="mb-2">
+    <a asp-page="/Departments/Create" class="btn btn-success">Novo Departamento</a>
+</div>
+
 @if (!Model.Departments.Any())
 {
     <div class="alert alert-info">Nenhum departamento encontrado.</div>

@@ -21,6 +21,10 @@
     /// </summary>
     public class EmployeeDto
     {
+        /// <summary>
+        /// Identificador do colaborador.
+        /// </summary>
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Nome do colaborador.

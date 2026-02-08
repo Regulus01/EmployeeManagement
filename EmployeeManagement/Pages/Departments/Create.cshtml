@@ -1,0 +1,37 @@
+@page
+@model EmployeeManagement.Pages.Departments.CreateModel
+
+@{
+    ViewData["Title"] = "Criar Departamento";
+}
+
+<h1>Criar Departamento</h1>
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Input.Nome" class="form-label"></label>
+        <input asp-for="Input.Nome" class="form-control" />
+        <span asp-validation-for="Input.Nome" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Input.ManagerId" class="form-label"></label>
+        <select asp-for="Input.ManagerId" class="form-select" asp-items="Model.Managers"></select>
+        <span asp-validation-for="Input.ManagerId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Input.ParentDepartmentId" class="form-label"></label>
+        <select asp-for="Input.ParentDepartmentId" class="form-select" asp-items="Model.ParentDepartments"></select>
+        <span asp-validation-for="Input.ParentDepartmentId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a asp-page="/Departments/Index" class="btn btn-secondary ms-2">Voltar</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

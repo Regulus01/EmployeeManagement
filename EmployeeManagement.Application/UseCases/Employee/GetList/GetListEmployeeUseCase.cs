@@ -2,11 +2,7 @@
 using EmployeeManagement.Application.Extensions;
 using EmployeeManagement.Domain.Repositories;
 using MediatR;
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
-using System.Xml.Linq;
 
 namespace EmployeeManagement.Application.UseCases.Employee.GetList
 {
@@ -60,10 +56,11 @@ namespace EmployeeManagement.Application.UseCases.Employee.GetList
             var employeeDtos = employees
                 .Select(employee => new EmployeeDto
                 {
+                    Id = employee.Id,
                     Nome = employee.Nome,
                     CPF = employee.CPF,
                     RG = employee.RG,
-                    DepartmentName = employee.Department?.Nome
+                    DepartmentName = employee.Department.Nome
                 })
                 .ToList();
 
