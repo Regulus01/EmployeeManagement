@@ -1,4 +1,5 @@
 using EmployeeManagement.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace EmployeeManagement.Domain.Repositories
 {
@@ -15,6 +16,27 @@ namespace EmployeeManagement.Domain.Repositories
         /// <param name="cancellationToken">Token para cancelar a operação assíncrona.</param>
         /// <returns>Task que representa a operação assíncrona de anexação ao contexto.</returns>
         Task AddAsync(Employee employee, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Obtém colaboradores com filtro e paginação opcionais.
+        /// </summary>
+        /// <param name="filter">
+        /// Expressão para filtrar os colaboradores. 
+        /// Se não informada, retorna todos.
+        /// </param>
+        /// <param name="skip">
+        /// Quantidade de registros a ignorar na consulta.
+        /// </param>
+        /// <param name="take">
+        /// Quantidade máxima de registros a retornar.
+        /// </param>
+        /// <returns>
+        /// Coleção de <see cref="Employee"/> resultante da consulta.
+        /// </returns>
+        public IEnumerable<Employee> Get(
+            Expression<Func<Employee, bool>>? filter = null, 
+            int? skip = null, 
+            int? take = null);
 
         /// <summary>
         /// Persiste as alterações pendentes no repositório e retorna a entidade informada.

@@ -29,7 +29,7 @@ namespace EmployeeManagement.Infrastructure.Maps
             builder.Property(e => e.DepartmentId)
                    .IsRequired();
 
-            builder.HasOne<Department>()
+            builder.HasOne(e => e.Department)
                    .WithMany(d => d.Employees)
                    .HasForeignKey(e => e.DepartmentId);
         }

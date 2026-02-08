@@ -1,4 +1,5 @@
 using EmployeeManagement.Application.UseCases.Employee.Create;
+using EmployeeManagement.Application.UseCases.Employee.GetList;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +9,7 @@ namespace EmployeeManagement.Api.Controllers
     /// Controlador responsável pelas operações relacionadas a funcionários.
     /// </summary>
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/Employee")]
     public class EmployeeController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -53,6 +54,58 @@ namespace EmployeeManagement.Api.Controllers
             }
 
             return Created(string.Empty, response.Value);
+        }
+
+
+        /// <summary>
+        /// Lista colaboradores com filtros opcionais.
+        /// </summary>
+        /// <param name="nome">Filtro por nome do colaborador (busca parcial, case-insensitive).</param>
+        /// <param name="cpf">Filtro por CPF do colaborador (busca exata).</param>
+        /// <param name="rg">Filtro por RG do colaborador (busca parcial).</param>
+        /// <param name="departmentId">Filtro por ID do departamento.</param>
+        /// <param name="cancellationToken">Token para cancelamento da operação.</param>
+        /// <returns>Lista de colaboradores filtrados.</returns>
+        /// <response code="200">Lista de colaboradores retornada com sucesso.</response>
+        /// <response code="422">Erro de validação nos filtros fornecidos.</response>
+        [HttpGet]
+        [ProducesResponseType(typeof(GetListEmployeeResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> GetListEmployees(
+            [FromQuery] string? nome,
+            [FromQuery] string? cpf,
+            [FromQuery] string? rg,
+            [FromQuery] Guid? departmentId,
+            CancellationToken cancellationToken)
+        {
+            var request = new GetListEmployeeRequest
+            {
+                Nome = nome,
+                CPF = cpf,
+                RG = rg,
+                DepartmentId = departmentId
+            };
+
+            var response = await _mediator.Send(request, cancellationToken);
+
+            if (!response.IsSuccess)
+            {
+                var errors = new Dictionary<string, string[]>
+                {
+                    { string.Empty, response.Errors }
+                };
+
+                var problemDetails = new ValidationProblemDetails(errors)
+                {
+                    Title = "Validation Failed",
+                    Detail = "One or more validation errors occurred.",
+                    Status = StatusCodes.Status422UnprocessableEntity
+                };
+
+                return UnprocessableEntity(problemDetails);
+            }
+
+            return Ok(response.Value);
         }
     }
 }

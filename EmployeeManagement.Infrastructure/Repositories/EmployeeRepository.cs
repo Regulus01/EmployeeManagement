@@ -2,6 +2,10 @@
 using EmployeeManagement.Domain.Repositories;
 using EmployeeManagement.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading;
 
 namespace EmployeeManagement.Infrastructure.Repositories
 {
@@ -13,6 +17,26 @@ namespace EmployeeManagement.Infrastructure.Repositories
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
+
+        public IEnumerable<Employee> Get(
+            Expression<Func<Employee, bool>>? filter = null, 
+            int? skip = null, 
+            int? take = null)
+        {
+            var query = _context.Employees.AsNoTracking();
+
+            if (filter is not null)
+                query = query.Where(filter);
+
+            if (skip.HasValue)
+                query = query.Skip(skip.Value);
+
+            if (take.HasValue)
+                query = query.Take(take.Value);
+
+            return query.Include(x => x.Department).ToList();
+        }
+
         public async Task AddAsync(Employee employee, CancellationToken cancellationToken = default)
         {
             await _context.Employees.AddAsync(employee, cancellationToken);
@@ -49,7 +73,7 @@ namespace EmployeeManagement.Infrastructure.Repositories
         {
             var entity = await _context.Employees.FindAsync(id, cancellationToken);
 
-            if (entity is null) 
+            if (entity is null)
                 return;
 
             _context.Employees.Remove(entity);

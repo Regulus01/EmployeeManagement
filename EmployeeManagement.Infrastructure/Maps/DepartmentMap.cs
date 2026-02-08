@@ -28,15 +28,8 @@ namespace EmployeeManagement.Infrastructure.Maps
                    .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasMany(d => d.Employees)
-                   .WithOne()
-                   .HasForeignKey("DepartmentId")
-                   .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Navigation(d => d.Employees)
-                   .UsePropertyAccessMode(PropertyAccessMode.Property);
-
-            builder.Navigation(d => d.SubDepartments)
-                   .UsePropertyAccessMode(PropertyAccessMode.Property);
+                   .WithOne(e => e.Department)
+                   .HasForeignKey(e => e.DepartmentId);
         }
     }
 }

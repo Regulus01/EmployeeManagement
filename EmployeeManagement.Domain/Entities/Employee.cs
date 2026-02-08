@@ -6,6 +6,7 @@
         public string CPF { get; private set; }
         public string? RG { get; private set; }
         public Guid DepartmentId { get; private set; }
+        public virtual Department Department { get; private set; }
 
         public Employee()
         {
