@@ -14,13 +14,24 @@ namespace EmployeeManagement.Infrastructure.DependencyInjection
         /// </summary>
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            // Repositórios
+            services.AddDatabase()
+                    .AddRepositories();
+
+            return services;
+        }
+
+        private static IServiceCollection AddDatabase(this IServiceCollection services)
+        {
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseNpgsql("DefaultConnection"));
+
+            return services;
+        }
+
+        private static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-
-            //Database
-            services.AddDbContext<AppDbContext>(options =>
-                   options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
             return services;
         }
