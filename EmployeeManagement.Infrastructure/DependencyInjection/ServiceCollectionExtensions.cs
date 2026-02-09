@@ -1,6 +1,7 @@
 using EmployeeManagement.Domain.Repositories;
 using EmployeeManagement.Infrastructure.Context;
 using EmployeeManagement.Infrastructure.Repositories;
+using Humanizer.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,16 +15,16 @@ namespace EmployeeManagement.Infrastructure.DependencyInjection
         /// </summary>
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDatabase()
+            services.AddDatabase(configuration)
                     .AddRepositories();
 
             return services;
         }
 
-        private static IServiceCollection AddDatabase(this IServiceCollection services)
+        private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<AppDbContext>(options =>
-                options.UseNpgsql("DefaultConnection"));
+                   options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
             return services;
         }
