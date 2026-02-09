@@ -27,11 +27,10 @@ namespace EmployeeManagement.Application.UseCases.Department.GetList
                 filter = filter.And(x => x.Nome.ToLower().Contains(request.Nome.ToLower()));
 
             if (!string.IsNullOrWhiteSpace(request.ManagerName))
-                filter = filter.And(x => x.Manager.Nome.ToLower().Contains(request.ManagerName.ToLower()));
+                filter = filter.And(x => x.Manager!.Nome.ToLower().Contains(request.ManagerName.ToLower()));
 
             if (!string.IsNullOrWhiteSpace(request.ParentDepartmentName))
-                filter = filter.And(x => x.ParentDepartment.Nome.ToLower().Contains(request.ParentDepartmentName.ToLower()));
-
+                filter = filter.And(x => x.ParentDepartment!.Nome.ToLower().Contains(request.ParentDepartmentName.ToLower()));
 
             var departments = _departmentRepository.Get(filter);
 

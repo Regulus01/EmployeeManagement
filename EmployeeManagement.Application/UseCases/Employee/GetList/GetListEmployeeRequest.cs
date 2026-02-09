@@ -9,17 +9,17 @@ namespace EmployeeManagement.Application.UseCases.Employee.GetList
     public class GetListEmployeeRequest : IRequest<Result<GetListEmployeeResponse>>
     {
         /// <summary>
-        /// Filtro por nome do colaborador (busca parcial, case-insensitive).
+        /// Filtro por nome do colaborador.
         /// </summary>
         public string? Nome { get; set; }
 
         /// <summary>
-        /// Filtro por CPF do colaborador (busca exata).
+        /// Filtro por CPF do colaborador.
         /// </summary>
         public string? CPF { get; set; }
 
         /// <summary>
-        /// Filtro por RG do colaborador (busca parcial).
+        /// Filtro por RG do colaborador.
         /// </summary>
         public string? RG { get; set; }
 

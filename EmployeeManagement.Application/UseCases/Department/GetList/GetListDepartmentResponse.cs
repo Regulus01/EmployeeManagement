@@ -17,12 +17,25 @@ public class GetListDepartmentResponse
 /// <summary>
 /// DTO de saída para listagem de departamentos.
 /// </summary>
-/// 
 public class GetListDepartmentDto
 {
-
+    /// <summary>
+    /// Identificador único do departamento.
+    /// </summary>
     public Guid Id { get; set; }
+
+    /// <summary>
+    /// Nome do departamento.
+    /// </summary>
     public string Nome { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Nome do gestor responsável pelo departamento (opcional).
+    /// </summary>
     public string? ManagerName { get; set; }
+
+    /// <summary>
+    /// Nome do departamento pai na hierarquia (opcional).
+    /// </summary>
     public string? ParentDepartmentName { get; set; }
 }

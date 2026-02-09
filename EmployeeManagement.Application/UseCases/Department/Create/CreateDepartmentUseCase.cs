@@ -25,7 +25,7 @@ namespace EmployeeManagement.Application.UseCases.Department.Create
             var saveChangesSuccess = await _departmentRepository.SaveChangesAsync(department, cancellationToken);
 
             if (!saveChangesSuccess)
-                return Result.Failure<CreateDepartmentResponse>(new[] { "Falha ao salvar o departamento." });
+                return Result.Failure<CreateDepartmentResponse>(["Falha ao salvar o departamento."]);
 
             var response = new CreateDepartmentResponse
             {

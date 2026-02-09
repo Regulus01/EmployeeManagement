@@ -46,7 +46,7 @@ namespace EmployeeManagement.Application.UseCases.Employee.GetList
                 filter = filter.And(x => x.CPF.Equals(request.CPF));
 
             if (!string.IsNullOrWhiteSpace(request.RG))
-                filter = filter.And(x => x.RG != null && x.RG.ToLower().Contains(request.RG.ToLower()));
+                filter = filter.And(x => x.RG != null && x.RG.ToLower().Equals(request.RG.ToLower()));
 
             if (request.DepartmentId.HasValue)
                 filter = filter.And(x => x.DepartmentId == request.DepartmentId.Value);
@@ -70,7 +70,7 @@ namespace EmployeeManagement.Application.UseCases.Employee.GetList
                 TotalCount = employeeDtos.Count
             };
 
-            return Result<GetListEmployeeResponse>.Success(response);
+            return Result.Success(response);
         }
     }
 }
