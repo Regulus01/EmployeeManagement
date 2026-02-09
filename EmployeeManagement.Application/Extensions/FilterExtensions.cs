@@ -4,6 +4,10 @@ namespace EmployeeManagement.Application.Extensions
 {
     public static class FilterExtensions
     {
+        /// <summary>
+        /// Combina duas expressões booleanas em uma única expressão utilizando
+        /// o operador lógico AND (&&).
+        /// </summary>
         public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> left, Expression<Func<T, bool>> right)
         {
             var parameter = Expression.Parameter(typeof(T));
