@@ -14,28 +14,28 @@ namespace EmployeeManagement.Web.Clients
             _httpClient = httpClient;
         }
 
-        public async Task<GetListEmployeeResponse?> GetEmployeesAsync(CancellationToken cancelationToken)
+        public async Task<GetListEmployeeResponse?> GetEmployeesAsync(string? query = null, CancellationToken cancellationToken = default)
         {
-            var response = await _httpClient.GetFromJsonAsync<GetListEmployeeResponse>("api/Employee", cancelationToken);
+            var response = await _httpClient.GetFromJsonAsync<GetListEmployeeResponse>($"api/Employee?{query}", cancellationToken);
             return response;
         }
 
-        public async Task<ApiResponse> CreateAsync(CreateEmployeeApiRequest request, CancellationToken cancelationToken)
+        public async Task<ApiResponse> CreateAsync(CreateEmployeeApiRequest request, CancellationToken cancellationToken)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/Employee", request, cancelationToken);
+            var response = await _httpClient.PostAsJsonAsync("api/Employee", request, cancellationToken);
 
             if (response.IsSuccessStatusCode)
                 return ApiResponse.Ok();
 
-            var errors = await ExtractErrors(response, cancelationToken);
+            var errors = await ExtractErrors(response, cancellationToken);
             return ApiResponse.Fail(errors);
         }
 
-        private static async Task<List<string>> ExtractErrors(HttpResponseMessage response, CancellationToken ct)
+        private static async Task<List<string>> ExtractErrors(HttpResponseMessage response, CancellationToken cancellationToken)
         {
             try
             {
-                var problem = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>(cancellationToken: ct);
+                var problem = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>(cancellationToken: cancellationToken);
 
                 if (problem?.Errors != null)
                     return problem.Errors.SelectMany(x => x.Value).ToList();

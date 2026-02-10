@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using EmployeeManagement.Web.Entities.Request;
+﻿using EmployeeManagement.Web.Entities.Request;
 using EmployeeManagement.Web.Entities.Response;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading;
 
 namespace EmployeeManagement.Web.Clients
 {
@@ -13,29 +14,29 @@ namespace EmployeeManagement.Web.Clients
             _httpClient = httpClient;
         }
 
-        public async Task<ApiResponse> CreateAsync(CreateDepartmentRequest request, CancellationToken ct)
+        public async Task<ApiResponse> CreateAsync(CreateDepartmentRequest request, CancellationToken cancellationToken)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/Department", request, ct);
+            var response = await _httpClient.PostAsJsonAsync("api/Department", request, cancellationToken);
 
             if (response.IsSuccessStatusCode)
                 return ApiResponse.Ok();
 
-            var errors = await ExtractErrors(response, ct);
+            var errors = await ExtractErrors(response, cancellationToken);
             return ApiResponse.Fail(errors);
         }
 
-        public async Task<GetListDepartmentResponse?> GetDepartmentsAsync(CancellationToken cancelationToken)
+        public async Task<GetListDepartmentResponse?> GetDepartmentsAsync(string? query = null, CancellationToken cancellationToken = default)
         {
-            var response = await _httpClient.GetFromJsonAsync<GetListDepartmentResponse>("api/Department", cancelationToken);
+            var response = await _httpClient.GetFromJsonAsync<GetListDepartmentResponse>($"api/Department?{query}", cancellationToken);
 
             return response;
         }
 
-        private static async Task<List<string>> ExtractErrors(HttpResponseMessage response, CancellationToken ct)
+        private static async Task<List<string>> ExtractErrors(HttpResponseMessage response, CancellationToken cancellationToken)
         {
             try
             {
-                var problem = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>(cancellationToken: ct);
+                var problem = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>(cancellationToken: cancellationToken);
 
                 if (problem?.Errors != null)
                     return problem.Errors.SelectMany(x => x.Value).ToList();

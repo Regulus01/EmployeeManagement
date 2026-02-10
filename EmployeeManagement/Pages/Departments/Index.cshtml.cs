@@ -47,11 +47,7 @@ namespace EmployeeManagement.Pages.Departments
                     .Where(kv => !string.IsNullOrWhiteSpace(kv.Value))
                     .Select(kv => $"{Uri.EscapeDataString(kv.Key)}={Uri.EscapeDataString(kv.Value!)}"));
 
-            var url = string.IsNullOrEmpty(queryString)
-                ? "api/Department"
-                : $"api/Department?{queryString}";
-
-            var response = await _client.GetDepartmentsAsync(cancellationToken);
+            var response = await _client.GetDepartmentsAsync(queryString, cancellationToken);
 
             Departments = response?.Departments ?? [];
             TotalCount = response?.TotalCount ?? 0;

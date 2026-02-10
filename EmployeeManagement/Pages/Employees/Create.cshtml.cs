@@ -59,7 +59,7 @@ namespace EmployeeManagement.Pages.Employees
 
         private async Task LoadDepartmentsAsync(CancellationToken cancellationToken)
         {
-            var response = await _departmentClient.GetDepartmentsAsync(cancellationToken);
+            var response = await _departmentClient.GetDepartmentsAsync(cancellationToken: cancellationToken);
 
             if (response?.Departments is null)
             {

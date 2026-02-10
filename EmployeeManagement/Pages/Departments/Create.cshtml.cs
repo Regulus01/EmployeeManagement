@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Threading;
 
 namespace EmployeeManagement.Pages.Departments
 {
@@ -24,8 +25,8 @@ namespace EmployeeManagement.Pages.Departments
         [BindProperty]
         public CreateDepartmentInputModel Input { get; set; } = new();
 
-        public List<SelectListItem> ParentDepartments { get; set; } = new();
-        public List<SelectListItem> Managers { get; set; } = new();
+        public List<SelectListItem> ParentDepartments { get; set; } = [];
+        public List<SelectListItem> Managers { get; set; } = [];
 
         public async Task OnGetAsync(CancellationToken cancellationToken)
         {
@@ -62,7 +63,7 @@ namespace EmployeeManagement.Pages.Departments
 
         private async Task LoadParentDepartmentsAsync(CancellationToken cancellationToken)
         {
-            var response = await _departmentClient.GetDepartmentsAsync(cancellationToken);
+            var response = await _departmentClient.GetDepartmentsAsync(cancellationToken: cancellationToken);
 
             if (response == null)
                 return;
@@ -85,7 +86,7 @@ namespace EmployeeManagement.Pages.Departments
 
         private async Task LoadManagersAsync(CancellationToken cancellationToken)
         {
-            var response = await _employeeClient.GetEmployeesAsync(cancellationToken);
+            var response = await _employeeClient.GetEmployeesAsync(cancellationToken: cancellationToken);
 
             if (response == null)
                 return;

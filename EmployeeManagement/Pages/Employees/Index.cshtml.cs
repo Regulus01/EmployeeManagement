@@ -75,11 +75,7 @@ namespace EmployeeManagement.Pages.Employees
                     .Where(kv => !string.IsNullOrWhiteSpace(kv.Value))
                     .Select(kv => $"{Uri.EscapeDataString(kv.Key)}={Uri.EscapeDataString(kv.Value!)}"));
 
-            var url = string.IsNullOrEmpty(queryString)
-                ? "api/Employee"
-                : $"api/Employee?{queryString}";
-
-            var response = await _employeeClient.GetEmployeesAsync(cancellationToken);
+            var response = await _employeeClient.GetEmployeesAsync(queryString, cancellationToken);
 
             if (response is null)
             {
@@ -94,7 +90,7 @@ namespace EmployeeManagement.Pages.Employees
 
         private async Task LoadDepartmentsAsync(CancellationToken cancellationToken)
         {
-            var apiResponse = await _departmentClient.GetDepartmentsAsync(cancellationToken);
+            var apiResponse = await _departmentClient.GetDepartmentsAsync(cancellationToken: cancellationToken);
 
             if (apiResponse?.Departments is null)
             {
