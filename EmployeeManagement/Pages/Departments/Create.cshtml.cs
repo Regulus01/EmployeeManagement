@@ -13,7 +13,6 @@ namespace EmployeeManagement.Pages.Departments
     public class CreateModel : PageModel
     {
         private readonly IDepartmentClient _client;
-        private readonly ILogger<CreateModel> _logger;
 
         public CreateModel(IDepartmentClient client)
         {
@@ -61,58 +60,49 @@ namespace EmployeeManagement.Pages.Departments
 
         private async Task LoadParentDepartmentsAsync(CancellationToken cancellationToken)
         {
-            try
-            {
-                var departments = await _client.GetDepartmentsAsync(cancellationToken);
+            var response = await _client.GetDepartmentsAsync(cancellationToken);
 
-                ParentDepartments = departments
-                    .Select(d => new SelectListItem
-                    {
-                        Value = d.Id.ToString(),
-                        Text = d.Nome
-                    })
-                    .ToList();
+            if (response == null)
+                return;
 
-                ParentDepartments.Insert(0, new SelectListItem
+            ParentDepartments = response.Departments
+                .Select(d => new SelectListItem
                 {
-                    Value = "",
-                    Text = "Nenhum",
-                    Selected = !Input.ParentDepartmentId.HasValue
-                });
-            }
-            catch (Exception ex)
+                    Value = d.Id.ToString(),
+                    Text = d.Nome
+                })
+                .ToList();
+
+            ParentDepartments.Insert(0, new SelectListItem
             {
-                _logger.LogError(ex, "Erro ao carregar departamentos pais da API");
-                ParentDepartments = [];
-            }
+                Value = "",
+                Text = "Nenhum",
+                Selected = !Input.ParentDepartmentId.HasValue
+            });
         }
 
         private async Task LoadManagersAsync(CancellationToken cancellationToken)
         {
-            try
-            {
-                var employees = await _client.GetEmployeesAsync(cancellationToken);
+            var response = await _client.GetEmployeesAsync(cancellationToken);
 
-                Managers = employees
-                    .Select(e => new SelectListItem
-                    {
-                        Value = e.Id.ToString(),
-                        Text = e.Nome
-                    })
-                    .ToList();
+            if (response == null)
+                return;
 
-                Managers.Insert(0, new SelectListItem
+            Managers = response.Employees
+                .Select(e => new SelectListItem
                 {
-                    Value = "",
-                    Text = "Selecione um gerente",
-                    Selected = !Input.ManagerId.HasValue
-                });
-            }
-            catch (Exception ex)
+                    Value = e.Id.ToString(),
+                    Text = e.Nome
+                })
+                .ToList();
+
+            Managers.Insert(0, new SelectListItem
             {
-                _logger.LogError(ex, "Erro ao carregar colaboradores (managers) da API");
-                Managers = [];
-            }
+                Value = "",
+                Text = "Selecione um gerente",
+                Selected = !Input.ManagerId.HasValue
+            });
+
         }
     }
 }

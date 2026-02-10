@@ -24,16 +24,17 @@ namespace EmployeeManagement.Web.Clients
             return ApiResponse.Fail(errors);
         }
 
-        public async Task<List<GetListDepartmentDto>> GetDepartmentsAsync(CancellationToken cancelationToken)
+        public async Task<GetListDepartmentResponse?> GetDepartmentsAsync(CancellationToken cancelationToken)
         {
             var response = await _httpClient.GetFromJsonAsync<GetListDepartmentResponse>("api/Department", cancelationToken);
-            return response?.Departments ?? [];
+
+            return response;
         }
 
-        public async Task<List<GetListEmployeeDto>> GetEmployeesAsync(CancellationToken cancelationToken)
+        public async Task<GetListEmployeeResponse?> GetEmployeesAsync(CancellationToken cancelationToken)
         {
             var response = await _httpClient.GetFromJsonAsync<GetListEmployeeResponse>("api/Employee", cancelationToken);
-            return response?.Employees ?? [];
+            return response;
         }
 
         private static async Task<List<string>> ExtractErrors(HttpResponseMessage response, CancellationToken ct)

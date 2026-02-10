@@ -6,7 +6,7 @@ namespace EmployeeManagement.Web.Clients
     public interface IDepartmentClient
     {
         Task<ApiResponse> CreateAsync(CreateDepartmentRequest request, CancellationToken cancelationToken);
-        Task<List<GetListDepartmentDto>> GetDepartmentsAsync(CancellationToken cancelationToken);
-        Task<List<GetListEmployeeDto>> GetEmployeesAsync(CancellationToken cancelationToken);
+        Task<GetListDepartmentResponse?> GetDepartmentsAsync(CancellationToken cancelationToken);
+        Task<GetListEmployeeResponse?> GetEmployeesAsync(CancellationToken cancelationToken);
     }
 }
