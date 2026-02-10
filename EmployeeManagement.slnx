@@ -3,5 +3,5 @@
   <Project Path="EmployeeManagement.Application/EmployeeManagement.Application.csproj" />
   <Project Path="EmployeeManagement.Domain/EmployeeManagement.Domain.csproj" />
   <Project Path="EmployeeManagement.Infrastructure/EmployeeManagement.Infrastructure.csproj" />
-  <Project Path="EmployeeManagement/EmployeeManagement.Web.csproj" />
+  <Project Path="EmployeeManagement.Web/EmployeeManagement.Web.csproj" />
 </Solution>
