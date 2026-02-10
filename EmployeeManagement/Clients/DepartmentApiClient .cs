@@ -1,7 +1,6 @@
 ﻿using EmployeeManagement.Web.Entities.Request;
 using EmployeeManagement.Web.Entities.Response;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading;
 
 namespace EmployeeManagement.Web.Clients
 {

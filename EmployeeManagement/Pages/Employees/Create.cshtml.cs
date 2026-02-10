@@ -4,8 +4,6 @@ using EmployeeManagement.Web.Inputs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
 
 namespace EmployeeManagement.Pages.Employees
 {

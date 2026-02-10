@@ -2,7 +2,6 @@ using EmployeeManagement.Domain.Entities;
 using EmployeeManagement.Domain.Repositories;
 using EmployeeManagement.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace EmployeeManagement.Infrastructure.Repositories
@@ -73,7 +72,7 @@ namespace EmployeeManagement.Infrastructure.Repositories
         {
             var entity = await _context.Departments.FindAsync(id, cancellationToken);
 
-            if (entity is null) 
+            if (entity is null)
                 return;
 
             _context.Departments.Remove(entity);

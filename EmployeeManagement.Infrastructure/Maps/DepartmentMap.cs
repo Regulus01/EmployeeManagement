@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EmployeeManagement.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using EmployeeManagement.Domain.Entities;
 
 namespace EmployeeManagement.Infrastructure.Maps
 {

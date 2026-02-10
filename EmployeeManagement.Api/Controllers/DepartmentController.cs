@@ -3,8 +3,6 @@ using EmployeeManagement.Application.UseCases.Department.GetList;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using System.Net.Http.Json;
 using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeManagement.Api.Controllers
@@ -41,7 +39,7 @@ namespace EmployeeManagement.Api.Controllers
         public async Task<IActionResult> CreateDepartment([FromBody] CreateDepartmentRequest request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(request, cancellationToken);
-            
+
             if (!response.IsSuccess)
             {
                 var errors = new Dictionary<string, string[]>
@@ -58,7 +56,7 @@ namespace EmployeeManagement.Api.Controllers
 
                 return UnprocessableEntity(problemDetails);
             }
-            
+
             return Created(string.Empty, response.Value);
         }
 

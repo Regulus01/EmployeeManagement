@@ -1,7 +1,6 @@
 using EmployeeManagement.Domain.Repositories;
 using EmployeeManagement.Infrastructure.Context;
 using EmployeeManagement.Infrastructure.Repositories;
-using Humanizer.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,5 +1,5 @@
-using EmployeeManagement.Infrastructure.DependencyInjection;
 using EmployeeManagement.Application.DependencyInjection;
+using EmployeeManagement.Infrastructure.DependencyInjection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,8 +21,8 @@ builder.Services.AddProblemDetails();
 
 builder.Services.AddControllers();
 
-builder.Services.AddEndpointsApiExplorer(); 
-builder.Services.AddSwaggerGen();           
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 

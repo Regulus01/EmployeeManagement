@@ -27,7 +27,7 @@ namespace EmployeeManagement.Application.UseCases.Employee.Create
 
             if (!saveChangesSuccess)
                 return Result.Failure<CreateEmployeeResponse>(["Falha ao salvar o funcionário."]);
-    
+
             var response = new CreateEmployeeResponse
             {
                 Id = employee.Id,

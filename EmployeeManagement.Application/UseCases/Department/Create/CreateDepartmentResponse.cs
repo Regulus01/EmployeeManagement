@@ -23,4 +23,3 @@
         public Guid? ParentDepartmentId { get; init; }
     }
 }
-    

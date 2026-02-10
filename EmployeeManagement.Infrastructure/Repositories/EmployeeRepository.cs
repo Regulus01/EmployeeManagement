@@ -2,10 +2,7 @@
 using EmployeeManagement.Domain.Repositories;
 using EmployeeManagement.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading;
 
 namespace EmployeeManagement.Infrastructure.Repositories
 {
@@ -19,8 +16,8 @@ namespace EmployeeManagement.Infrastructure.Repositories
         }
 
         public IEnumerable<Employee> Get(
-            Expression<Func<Employee, bool>>? filter = null, 
-            int? skip = null, 
+            Expression<Func<Employee, bool>>? filter = null,
+            int? skip = null,
             int? take = null)
         {
             var query = _context.Employees.AsNoTracking();

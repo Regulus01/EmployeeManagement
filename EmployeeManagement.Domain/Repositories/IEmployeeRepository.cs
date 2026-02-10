@@ -34,8 +34,8 @@ namespace EmployeeManagement.Domain.Repositories
         /// Coleção de <see cref="Employee"/> resultante da consulta.
         /// </returns>
         public IEnumerable<Employee> Get(
-            Expression<Func<Employee, bool>>? filter = null, 
-            int? skip = null, 
+            Expression<Func<Employee, bool>>? filter = null,
+            int? skip = null,
             int? take = null);
 
         /// <summary>

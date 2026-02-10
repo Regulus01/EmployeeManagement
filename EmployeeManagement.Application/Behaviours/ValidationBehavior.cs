@@ -57,7 +57,7 @@ namespace EmployeeManagement.Application.Behaviors
                 if (failures.Any())
                 {
                     var errors = failures.Select(f => f.ErrorMessage).ToArray();
-                    
+
                     return CreateValidationFailureResponse(errors);
                 }
             }
@@ -77,7 +77,7 @@ namespace EmployeeManagement.Application.Behaviors
         {
             var responseType = typeof(TResponse);
 
-            if (responseType.IsGenericType && 
+            if (responseType.IsGenericType &&
                 responseType.GetGenericTypeDefinition() == typeof(Result<>))
             {
                 var failureMethod = typeof(Result)
@@ -85,7 +85,7 @@ namespace EmployeeManagement.Application.Behaviors
                     .Where(m => m.Name == nameof(Result.Failure) && m.IsGenericMethod)
                     .FirstOrDefault()
                     ?.MakeGenericMethod(responseType.GetGenericArguments()[0]);
-                
+
                 if (failureMethod != null)
                 {
                     return (TResponse)failureMethod.Invoke(null, new object[] { errors })!;

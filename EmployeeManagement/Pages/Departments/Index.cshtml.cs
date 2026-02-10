@@ -1,10 +1,8 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using System.Net.Http.Json;
-using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
-using EmployeeManagement.Web.Entities.Response;
 using EmployeeManagement.Web.Clients;
+using EmployeeManagement.Web.Entities.Response;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeManagement.Pages.Departments
 {

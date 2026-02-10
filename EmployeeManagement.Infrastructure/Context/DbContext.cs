@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using EmployeeManagement.Domain.Entities;
+﻿using EmployeeManagement.Domain.Entities;
 using EmployeeManagement.Infrastructure.Maps;
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagement.Infrastructure.Context
 {

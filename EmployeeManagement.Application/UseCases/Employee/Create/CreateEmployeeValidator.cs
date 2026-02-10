@@ -27,7 +27,7 @@ namespace EmployeeManagement.Application.UseCases.Employee.Create
             RuleFor(x => x.DepartmentId)
                 .Must(id => id != Guid.Empty).WithMessage("DepartmentId é obrigatório.")
                 .MustAsync(IsDepartmentValid).WithMessage("Departamento não cadastrado.");
-     
+
         }
 
         /// <summary>

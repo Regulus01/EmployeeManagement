@@ -4,10 +4,6 @@ using EmployeeManagement.Web.Inputs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations;
-using System.Net.Http.Json;
-using System.Text.Json;
-using System.Threading;
 
 namespace EmployeeManagement.Pages.Departments
 {
