@@ -7,6 +7,5 @@ namespace EmployeeManagement.Web.Clients
     {
         Task<ApiResponse> CreateAsync(CreateDepartmentRequest request, CancellationToken cancelationToken);
         Task<GetListDepartmentResponse?> GetDepartmentsAsync(CancellationToken cancelationToken);
-        Task<GetListEmployeeResponse?> GetEmployeesAsync(CancellationToken cancelationToken);
     }
 }

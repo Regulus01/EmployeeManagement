@@ -12,11 +12,13 @@ namespace EmployeeManagement.Pages.Departments
 {
     public class CreateModel : PageModel
     {
-        private readonly IDepartmentClient _client;
+        private readonly IDepartmentClient _departmentClient;
+        private readonly IEmployeeApiClient _employeeClient;
 
-        public CreateModel(IDepartmentClient client)
+        public CreateModel(IDepartmentClient departmentClient, IEmployeeApiClient employeeClient)
         {
-            _client = client;
+            _departmentClient = departmentClient;
+            _employeeClient = employeeClient;
         }
 
         [BindProperty]
@@ -39,7 +41,7 @@ namespace EmployeeManagement.Pages.Departments
                 return Page();
             }
 
-            var result = await _client.CreateAsync(new CreateDepartmentRequest
+            var result = await _departmentClient.CreateAsync(new CreateDepartmentRequest
             {
                 Nome = Input.Nome,
                 ManagerId = Input.ManagerId,
@@ -60,7 +62,7 @@ namespace EmployeeManagement.Pages.Departments
 
         private async Task LoadParentDepartmentsAsync(CancellationToken cancellationToken)
         {
-            var response = await _client.GetDepartmentsAsync(cancellationToken);
+            var response = await _departmentClient.GetDepartmentsAsync(cancellationToken);
 
             if (response == null)
                 return;
@@ -83,7 +85,7 @@ namespace EmployeeManagement.Pages.Departments
 
         private async Task LoadManagersAsync(CancellationToken cancellationToken)
         {
-            var response = await _client.GetEmployeesAsync(cancellationToken);
+            var response = await _employeeClient.GetEmployeesAsync(cancellationToken);
 
             if (response == null)
                 return;

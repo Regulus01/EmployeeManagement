@@ -9,6 +9,11 @@ builder.Services.AddHttpClient<IDepartmentClient, DepartmentApiClient>(client =>
     client.BaseAddress = new Uri("http://localhost:5279/");
 });
 
+builder.Services.AddHttpClient<IEmployeeApiClient, EmployeeApiClient>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5279/");
+});
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 

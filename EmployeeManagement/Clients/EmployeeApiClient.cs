@@ -1,34 +1,34 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using EmployeeManagement.Web.Entities.Request;
+﻿using EmployeeManagement.Web.Entities.Request;
 using EmployeeManagement.Web.Entities.Response;
+using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
 
 namespace EmployeeManagement.Web.Clients
 {
-    public class DepartmentApiClient : IDepartmentClient
+    public class EmployeeApiClient : IEmployeeApiClient
     {
         private readonly HttpClient _httpClient;
 
-        public DepartmentApiClient(HttpClient httpClient)
+        public EmployeeApiClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<ApiResponse> CreateAsync(CreateDepartmentRequest request, CancellationToken ct)
+        public async Task<GetListEmployeeResponse?> GetEmployeesAsync(CancellationToken cancelationToken)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/Department", request, ct);
+            var response = await _httpClient.GetFromJsonAsync<GetListEmployeeResponse>("api/Employee", cancelationToken);
+            return response;
+        }
+
+        public async Task<ApiResponse> CreateAsync(CreateEmployeeApiRequest request, CancellationToken cancelationToken)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/Employee", request, cancelationToken);
 
             if (response.IsSuccessStatusCode)
                 return ApiResponse.Ok();
 
-            var errors = await ExtractErrors(response, ct);
+            var errors = await ExtractErrors(response, cancelationToken);
             return ApiResponse.Fail(errors);
-        }
-
-        public async Task<GetListDepartmentResponse?> GetDepartmentsAsync(CancellationToken cancelationToken)
-        {
-            var response = await _httpClient.GetFromJsonAsync<GetListDepartmentResponse>("api/Department", cancelationToken);
-
-            return response;
         }
 
         private static async Task<List<string>> ExtractErrors(HttpResponseMessage response, CancellationToken ct)
