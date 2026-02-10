@@ -13,5 +13,6 @@
         public string CPF { get; set; } = string.Empty;
         public string? RG { get; set; }
         public string DepartmentName { get; set; } = string.Empty;
+        public string? ManagerName { get; set; }
     }
 }

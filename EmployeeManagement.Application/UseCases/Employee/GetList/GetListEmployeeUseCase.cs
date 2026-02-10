@@ -60,7 +60,8 @@ namespace EmployeeManagement.Application.UseCases.Employee.GetList
                     Nome = employee.Nome,
                     CPF = employee.CPF,
                     RG = employee.RG,
-                    DepartmentName = employee.Department.Nome
+                    DepartmentName = employee.Department.Nome,
+                    ManagerName = employee.Department?.Manager?.Nome
                 })
                 .ToList();
 

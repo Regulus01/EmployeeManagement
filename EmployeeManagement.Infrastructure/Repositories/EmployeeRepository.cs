@@ -31,7 +31,9 @@ namespace EmployeeManagement.Infrastructure.Repositories
             if (take.HasValue)
                 query = query.Take(take.Value);
 
-            return query.Include(x => x.Department).ToList();
+            return query.Include(x => x.Department)
+                        .ThenInclude(y => y.Manager)
+                        .ToList();
         }
 
         public async Task AddAsync(Employee employee, CancellationToken cancellationToken = default)

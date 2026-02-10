@@ -45,5 +45,10 @@
         /// Nome do departamento ao qual o colaborador pertence.
         /// </summary>
         public string DepartmentName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Nome do gerente associado ao departamento.
+        /// </summary>
+        public string? ManagerName { get; set; }
     }
 }
