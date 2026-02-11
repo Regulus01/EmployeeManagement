@@ -31,6 +31,15 @@ namespace EmployeeManagement.Web.Clients
             return response;
         }
 
+        public async Task<IEnumerable<GetSubDepartmentsResponse>> GetSubDepartmentsAsync(Guid departmentId, CancellationToken cancellationToken)
+        {
+            var response = await _httpClient.GetFromJsonAsync<IEnumerable<GetSubDepartmentsResponse>>(
+                $"api/Department/{departmentId}/subdepartments",
+                cancellationToken);
+
+            return response ?? [];
+        }
+
         private static async Task<List<string>> ExtractErrors(HttpResponseMessage response, CancellationToken cancellationToken)
         {
             try

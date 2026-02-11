@@ -1,9 +1,8 @@
 ﻿using EmployeeManagement.Application.UseCases.Department.Create;
 using EmployeeManagement.Application.UseCases.Department.GetList;
+using EmployeeManagement.Application.UseCases.Department.GetSubDepartments;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeManagement.Api.Controllers
 {
@@ -104,83 +103,44 @@ namespace EmployeeManagement.Api.Controllers
 
             return Ok(response.Value);
         }
-    }
 
-    public class IndexModel : PageModel
-    {
-        private readonly HttpClient _httpClient;
-        private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(IHttpClientFactory httpClientFactory, ILogger<IndexModel> logger)
+        /// <summary>
+        /// Retorna todos os subdepartamentos de um departamento específico (recursivamente).
+        /// </summary>
+        /// <param name="id">Id do departamento.</param>
+        /// <param name="cancellationToken">Token de cancelamento.</param>
+        /// <response code="200">Subdepartamentos retornados com sucesso.</response>
+        /// <response code="422">Erro de validação.</response>
+        [HttpGet("{id:guid}/subdepartments")]
+        [ProducesResponseType(typeof(IEnumerable<GetSubdepartmentsResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> GetSubdepartments(Guid id, CancellationToken cancellationToken)
         {
-            _httpClient = httpClientFactory.CreateClient("EmployeeManagementApi");
-            _logger = logger;
-        }
-
-        // Filtros (seguindo assinatura do endpoint)
-        [BindProperty(SupportsGet = true)]
-        [Display(Name = "Nome do departamento")]
-        public string? Nome { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        [Display(Name = "Nome do gerente")]
-        public string? ManagerName { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        [Display(Name = "Departamento superior")]
-        public string? ParentDepartmentName { get; set; }
-
-        public List<GetListDepartmentDto> Departments { get; set; } = new();
-        public int TotalCount { get; set; }
-
-        public async Task OnGetAsync(CancellationToken cancellationToken)
-        {
-            try
+            var request = new GetSubdepartmentsRequest
             {
-                var queryParams = new Dictionary<string, string?>
+                DepartmentId = id
+            };
+
+            var response = await _mediator.Send(request, cancellationToken);
+
+            if (!response.IsSuccess)
+            {
+                var errors = new Dictionary<string, string[]>
                 {
-                    ["nome"] = string.IsNullOrWhiteSpace(Nome) ? null : Nome,
-                    ["managerName"] = string.IsNullOrWhiteSpace(ManagerName) ? null : ManagerName,
-                    ["parentDepartmentName"] = string.IsNullOrWhiteSpace(ParentDepartmentName) ? null : ParentDepartmentName
+                    { string.Empty, response.Errors }
                 };
 
-                var queryString = string.Join("&",
-                    queryParams
-                        .Where(kv => !string.IsNullOrWhiteSpace(kv.Value))
-                        .Select(kv => $"{Uri.EscapeDataString(kv.Key)}={Uri.EscapeDataString(kv.Value!)}"));
+                var problemDetails = new ValidationProblemDetails(errors)
+                {
+                    Title = "Validation Failed",
+                    Detail = "One or more validation errors occurred.",
+                    Status = StatusCodes.Status422UnprocessableEntity
+                };
 
-                var url = string.IsNullOrEmpty(queryString)
-                    ? "api/Department"
-                    : $"api/Department?{queryString}";
-
-                var response = await _httpClient.GetFromJsonAsync<GetListDepartmentResponse>(
-                    url,
-                    cancellationToken
-                );
-
-                Departments = response?.Departments ?? new List<GetListDepartmentDto>();
-                TotalCount = response?.TotalCount ?? 0;
+                return UnprocessableEntity(problemDetails);
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Erro ao carregar lista de departamentos da API");
-                Departments = new List<GetListDepartmentDto>();
-                TotalCount = 0;
-            }
+
+            return Ok(response.Value);
         }
-    }
-
-    public class GetListDepartmentResponse
-    {
-        public List<GetListDepartmentDto> Departments { get; set; } = new();
-        public int TotalCount { get; set; }
-    }
-
-    public class GetListDepartmentDto
-    {
-        public Guid Id { get; set; }
-        public string Nome { get; set; } = string.Empty;
-        public string? ManagerName { get; set; }
-        public string? ParentDepartmentName { get; set; }
     }
 }

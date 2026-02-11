@@ -1,0 +1,21 @@
+@page
+@using EmployeeManagement.Web.Entities.Response
+@model EmployeeManagement.Web.Pages.Departments.SubDepartments
+
+@{
+    ViewData["Title"] = "Árvore de Departamentos";
+}
+
+<h1>Hierarquia de Departamentos</h1>
+
+@if (Model.Root is null || !Model.Root.Any())
+{
+    <p>Nenhum departamento encontrado.</p>
+}
+else
+{
+    @foreach (var item in Model.Root)
+    {
+        @await Html.PartialAsync("_SubDepartments", item)
+    }
+}

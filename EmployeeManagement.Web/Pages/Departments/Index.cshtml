@@ -47,6 +47,7 @@ else
                 <th>Nome</th>
                 <th>Gerente</th>
                 <th>Departamento Pai</th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -56,6 +57,13 @@ else
                 <td>@d.Nome</td>
                 <td>@d.ManagerName</td>
                 <td>@d.ParentDepartmentName</td>
+                <td>
+                    <a asp-page="/Departments/SubDepartments" 
+                       asp-route-DepartmentId="@d.Id" 
+                       class="btn btn-sm btn-outline-primary">
+                        Ver Hierarquia
+                    </a>
+                </td>
             </tr>
         }
         </tbody>

@@ -1,0 +1,17 @@
+﻿@model EmployeeManagement.Web.Entities.Response.GetSubDepartmentsResponse
+
+<ul>
+    <li>
+        <strong>@Model.Nome</strong>
+        
+        @if (Model.Parent is not null)
+        {
+            <span class="text-muted"></span>
+            @await Html.PartialAsync("_SubDepartments", Model.Parent)
+        }
+        else
+        {
+            <span class="badge bg-success ms-2">Raiz</span>
+        }
+    </li>
+</ul>

@@ -49,7 +49,11 @@ namespace EmployeeManagement.Infrastructure.Repositories
 
         public async Task<Department?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _context.Departments.AsNoTracking().FirstOrDefaultAsync(d => d.Id == id, cancellationToken);
+            return await _context.Departments
+                .Include(d => d.ParentDepartment)
+                .ThenInclude(d => d.ParentDepartment)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(d => d.Id == id, cancellationToken);
         }
 
         public async Task<IEnumerable<Department>> GetAllAsync()
