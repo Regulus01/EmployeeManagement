@@ -1,5 +1,5 @@
-﻿using EmployeeManagement.Application.Common;
-using EmployeeManagement.Domain.Repositories;
+﻿using EmployeeManagement.Domain.Repositories;
+using FluentResults;
 using MediatR;
 
 namespace EmployeeManagement.Application.UseCases.Department.GetSubDepartments
@@ -18,11 +18,11 @@ namespace EmployeeManagement.Application.UseCases.Department.GetSubDepartments
             var department = await _departmentRepository.GetByIdAsync(request.DepartmentId);
 
             if (department is null)
-                return Result.Failure<List<GetSubdepartmentsResponse>>(["Departamento não encontrado."]);
+                return Result.Fail("Departamento não encontrado.");
 
             List<GetSubdepartmentsResponse> result = [MapRecursive(department)];
 
-            return Result.Success(result);
+            return Result.Ok(result);
         }
 
         private GetSubdepartmentsResponse MapRecursive(Domain.Entities.Department department)

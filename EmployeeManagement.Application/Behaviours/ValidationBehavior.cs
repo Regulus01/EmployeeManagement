@@ -1,4 +1,4 @@
-﻿using EmployeeManagement.Application.Common;
+﻿using FluentResults;
 using FluentValidation;
 using MediatR;
 using System.Reflection;
@@ -80,16 +80,24 @@ namespace EmployeeManagement.Application.Behaviors
             if (responseType.IsGenericType &&
                 responseType.GetGenericTypeDefinition() == typeof(Result<>))
             {
+                var genericArg = responseType.GetGenericArguments()[0];
+
                 var failureMethod = typeof(Result)
                     .GetMethods(BindingFlags.Public | BindingFlags.Static)
-                    .Where(m => m.Name == nameof(Result.Failure) && m.IsGenericMethod)
-                    .FirstOrDefault()
-                    ?.MakeGenericMethod(responseType.GetGenericArguments()[0]);
+                    .Where(m =>
+                        m.Name == nameof(Result.Fail) &&
+                        m.IsGenericMethod &&
+                        m.GetParameters().Length == 1 &&
+                        typeof(IEnumerable<IError>)
+                            .IsAssignableFrom(m.GetParameters()[0].ParameterType))
+                    .First()
+                    .MakeGenericMethod(genericArg);
 
-                if (failureMethod != null)
-                {
-                    return (TResponse)failureMethod.Invoke(null, new object[] { errors })!;
-                }
+                var fluentErrors = errors
+                    .Select(e => new Error(e))
+                    .ToList();
+
+                return (TResponse)failureMethod.Invoke(null, [fluentErrors])!;
             }
 
             throw new ValidationException(string.Join("; ", errors));

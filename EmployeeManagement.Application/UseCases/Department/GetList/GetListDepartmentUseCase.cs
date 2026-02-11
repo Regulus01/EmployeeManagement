@@ -1,6 +1,6 @@
-﻿using EmployeeManagement.Application.Common;
-using EmployeeManagement.Application.Extensions;
+﻿using EmployeeManagement.Application.Extensions;
 using EmployeeManagement.Domain.Repositories;
+using FluentResults;
 using MediatR;
 using System.Linq.Expressions;
 
@@ -50,7 +50,7 @@ namespace EmployeeManagement.Application.UseCases.Department.GetList
                 TotalCount = departments.Count()
             };
 
-            return Result.Success(response);
+            return Result.Ok(response);
         }
     }
 }

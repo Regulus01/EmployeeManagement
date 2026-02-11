@@ -1,4 +1,4 @@
-﻿using EmployeeManagement.Application.Common;
+﻿using FluentResults;
 using MediatR;
 
 namespace EmployeeManagement.Application.UseCases.Employee.Create

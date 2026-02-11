@@ -1,5 +1,5 @@
-﻿using EmployeeManagement.Application.Common;
-using EmployeeManagement.Domain.Repositories;
+﻿using EmployeeManagement.Domain.Repositories;
+using FluentResults;
 using MediatR;
 
 namespace EmployeeManagement.Application.UseCases.Department.Create
@@ -25,7 +25,7 @@ namespace EmployeeManagement.Application.UseCases.Department.Create
             var saveChangesSuccess = await _departmentRepository.SaveChangesAsync(department, cancellationToken);
 
             if (!saveChangesSuccess)
-                return Result.Failure<CreateDepartmentResponse>(["Falha ao salvar o departamento."]);
+                return Result.Fail("Falha ao salvar o departamento.");
 
             var response = new CreateDepartmentResponse
             {
@@ -33,7 +33,7 @@ namespace EmployeeManagement.Application.UseCases.Department.Create
                 Nome = department.Nome
             };
 
-            return Result.Success(response);
+            return Result.Ok(response);
         }
     }
 }

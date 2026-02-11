@@ -38,9 +38,9 @@ namespace EmployeeManagement.Api.Controllers
 
             if (!response.IsSuccess)
             {
-                var errors = new Dictionary<string, string[]>
+                var errors = new Dictionary<string, string[]>{
                 {
-                    { "ValidationErrors", response.Errors }
+                   "ValidationErrors", response.Errors.Select(e => e.Message).ToArray() }
                 };
 
                 var problemDetails = new ValidationProblemDetails(errors)
@@ -90,9 +90,9 @@ namespace EmployeeManagement.Api.Controllers
 
             if (!response.IsSuccess)
             {
-                var errors = new Dictionary<string, string[]>
+                var errors = new Dictionary<string, string[]>{
                 {
-                    { string.Empty, response.Errors }
+                   "ValidationErrors", response.Errors.Select(e => e.Message).ToArray() }
                 };
 
                 var problemDetails = new ValidationProblemDetails(errors)

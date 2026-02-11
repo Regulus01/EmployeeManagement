@@ -1,5 +1,5 @@
-﻿using EmployeeManagement.Application.Common;
-using EmployeeManagement.Domain.Repositories;
+﻿using EmployeeManagement.Domain.Repositories;
+using FluentResults;
 using MediatR;
 
 namespace EmployeeManagement.Application.UseCases.Employee.Create
@@ -26,7 +26,7 @@ namespace EmployeeManagement.Application.UseCases.Employee.Create
             var saveChangesSuccess = await _employeeRepository.SaveChangesAsync(employee, cancellationToken);
 
             if (!saveChangesSuccess)
-                return Result.Failure<CreateEmployeeResponse>(["Falha ao salvar o funcionário."]);
+                return Result.Fail("Falha ao salvar o funcionário.");
 
             var response = new CreateEmployeeResponse
             {
@@ -37,7 +37,7 @@ namespace EmployeeManagement.Application.UseCases.Employee.Create
                 DepartmentId = employee.DepartmentId
             };
 
-            return Result.Success(response);
+            return Result.Ok(response);
         }
     }
 

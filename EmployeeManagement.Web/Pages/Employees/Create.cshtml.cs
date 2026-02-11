@@ -48,6 +48,9 @@ namespace EmployeeManagement.Pages.Employees
 
             if (!response.Success)
             {
+                foreach (var error in response.Errors)
+                    ModelState.AddModelError(string.Empty, error);
+            
                 await LoadDepartmentsAsync(cancellationToken);
                 return Page();
             }
