@@ -1,5 +1,6 @@
 using EmployeeManagement.Application.DependencyInjection;
 using EmployeeManagement.Infrastructure.DependencyInjection;
+using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +23,12 @@ builder.Services.AddProblemDetails();
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
+    options.IncludeXmlComments(xmlPath);
+});
 
 var app = builder.Build();
 
