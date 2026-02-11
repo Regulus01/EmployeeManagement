@@ -12,7 +12,10 @@ API para gerenciamento de **colaboradores** e **departamentos**, permitindo cada
 - Entity Framework Core
 - MediatR
 - Swagger 
-- Postgresql 
+- Postgresql
+- FluentResults
+- FluentValidators
+- Problem Details
 
 ### Frontend (Web)
 - Razor Pages
